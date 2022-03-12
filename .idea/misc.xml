@@ -7,6 +7,8 @@
         <entry key="app/src/main/res/layout/fragment_users.xml" value="0.25759124755859375" />
         <entry key="app/src/main/res/layout/item_user.xml" value="0.23053436279296877" />
         <entry key="app/src/main/res/layout/lalala.xml" value="0.21822916666666667" />
+        <entry key="app/src/main/res/layout/layout_empty_message.xml" value="0.18614130434782608" />
+        <entry key="app/src/main/res/layout/layout_error_message.xml" value="0.18614130434782608" />
       </map>
     </option>
   </component>
