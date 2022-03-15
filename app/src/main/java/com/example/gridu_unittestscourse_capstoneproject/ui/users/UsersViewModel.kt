@@ -7,6 +7,8 @@ import com.example.gridu_unittestscourse_capstoneproject.data.Result
 import com.example.gridu_unittestscourse_capstoneproject.data.model.UserDetails
 import com.example.gridu_unittestscourse_capstoneproject.data.source.UsersRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,9 +22,9 @@ class UsersViewModel @Inject constructor(
     val error = MutableLiveData<Exception>()
 
     fun getUsers() {
-        viewModelScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             loading.postValue(true)
-            when (val usersDetails = usersRepository.getUsers()) {
+            when (val usersDetails = usersRepository.getUsers(false)) {
                 is Result.Success -> {
                     if (usersDetails.data.isNullOrEmpty()) {
                         emptyResponse.postValue(true)

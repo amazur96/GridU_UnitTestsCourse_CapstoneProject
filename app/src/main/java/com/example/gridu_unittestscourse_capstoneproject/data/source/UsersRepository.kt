@@ -1,36 +1,38 @@
 package com.example.gridu_unittestscourse_capstoneproject.data.source
 
 import com.example.gridu_unittestscourse_capstoneproject.data.Result
-import com.example.gridu_unittestscourse_capstoneproject.data.model.User
 import com.example.gridu_unittestscourse_capstoneproject.data.model.UserDetails
+import com.example.gridu_unittestscourse_capstoneproject.data.source.local.LocalDataSource
+import com.example.gridu_unittestscourse_capstoneproject.data.source.remote.RemoteDataSource
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class UsersRepository @Inject constructor(
-    private val remoteDataSource: MainDataSource
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource
 ) {
-    suspend fun getUsers(): Result<List<UserDetails>> {
-        val response = remoteDataSource.getUsers()
-        return if (response.isSuccessful) {
-            return if (response.body().isNullOrEmpty()) {
-                Result.Success(null)
-            } else {
-                getUsersDetails(response.body()!!)
+    suspend fun getUsers(isForceUpdate: Boolean): Result<List<UserDetails>> {
+        val usersDetailsResponse = localDataSource.getUserDetails()
+        if (isForceUpdate
+            || usersDetailsResponse !is Result.Success
+            || usersDetailsResponse.data.isNullOrEmpty()) {
+            try {
+                updateTasksFromRemoteDataSource()
+            } catch (e: Exception) {
+                return Result.Error(e)
             }
-        } else {
-            Result.Error(Exception(response.message()))
         }
+        return localDataSource.getUserDetails()
     }
 
-    private suspend fun getUsersDetails(userList: List<User>): Result<List<UserDetails>> {
-        val usersDetails = mutableListOf<UserDetails>()
-        for (it in userList) {
-            val response = remoteDataSource.getUserDetails(it.login)
-            if (response.isSuccessful && response.body() != null) {
-                usersDetails.add(response.body()!!)
+    private suspend fun updateTasksFromRemoteDataSource() {
+        val response = remoteDataSource.getUserDetails()
+        if (response is Result.Success && response.data != null) {
+            localDataSource.deleteAllUsers()
+            response.data.forEach {
+                localDataSource.saveUser(it)
             }
+        } else if (response is Result.Error) {
+            throw response.exception
         }
-        return Result.Success(usersDetails)
     }
 }

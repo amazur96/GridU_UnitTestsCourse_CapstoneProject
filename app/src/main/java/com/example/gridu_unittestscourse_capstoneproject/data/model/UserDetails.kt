@@ -1,12 +1,16 @@
 package com.example.gridu_unittestscourse_capstoneproject.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class UserDetails(
     val avatar_url: String,
-    val bio: String,
+    val bio: String?,
     val blog: String,
-    val company: Any,
+    val company: String,
     val created_at: String,
-    val email: Any,
+    val email: String?,
     val events_url: String,
     val followers: Int,
     val followers_url: String,
@@ -14,10 +18,11 @@ data class UserDetails(
     val following_url: String,
     val gists_url: String,
     val gravatar_id: String,
-    val hireable: Any,
+    val hireable: String?,
     val html_url: String,
+    @PrimaryKey
     val id: Int,
-    val location: Any,
+    val location: String,
     val login: String,
     val name: String,
     val node_id: String,
@@ -29,7 +34,7 @@ data class UserDetails(
     val site_admin: Boolean,
     val starred_url: String,
     val subscriptions_url: String,
-    val twitter_username: Any,
+    val twitter_username: String,
     val type: String,
     val updated_at: String,
     val url: String

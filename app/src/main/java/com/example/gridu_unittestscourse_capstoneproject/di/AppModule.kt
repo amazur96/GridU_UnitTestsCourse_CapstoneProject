@@ -1,11 +1,16 @@
 package com.example.gridu_unittestscourse_capstoneproject.di
 
-import com.example.gridu_unittestscourse_capstoneproject.data.source.MainDataSource
+import android.content.Context
+import androidx.room.Room
+import com.example.gridu_unittestscourse_capstoneproject.data.source.local.AppDatabase
+import com.example.gridu_unittestscourse_capstoneproject.data.source.local.LocalDataSource
+import com.example.gridu_unittestscourse_capstoneproject.data.source.local.UsersDao
 import com.example.gridu_unittestscourse_capstoneproject.data.source.remote.NetworkService
 import com.example.gridu_unittestscourse_capstoneproject.data.source.remote.RemoteDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
@@ -62,10 +67,27 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMainService(retrofit: Retrofit) = retrofit.create(NetworkService::class.java)
+    fun provideNetworkService(retrofit: Retrofit) = retrofit.create(NetworkService::class.java)
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(mainService: NetworkService): MainDataSource =
+    fun provideRemoteDataSource(mainService: NetworkService): RemoteDataSource =
         RemoteDataSource(mainService)
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(
+            context, AppDatabase::class.java, "AppDatabase.db"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUsersDao(appDatabase: AppDatabase) = appDatabase.usersDao()
+
+    @Provides
+    @Singleton
+    fun provideLocalDataSource(usersDao: UsersDao): LocalDataSource =
+        LocalDataSource(usersDao)
 }

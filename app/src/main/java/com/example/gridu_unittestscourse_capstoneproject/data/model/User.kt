@@ -1,5 +1,9 @@
 package com.example.gridu_unittestscourse_capstoneproject.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class User(
     val avatar_url: String,
     val events_url: String,
@@ -8,6 +12,7 @@ data class User(
     val gists_url: String,
     val gravatar_id: String,
     val html_url: String,
+    @PrimaryKey
     val id: Int,
     val login: String,
     val node_id: String,
