@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GridU_UnitTestsCourse_CapstoneProject</string>
+
+    <string name="repositories">Repositories:</string>
 </resources>

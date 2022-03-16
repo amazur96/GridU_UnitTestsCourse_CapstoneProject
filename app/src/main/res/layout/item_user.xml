@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/item_user_margin_vertical">
+
+    <ImageView
+        android:id="@+id/avatarImageView"
+        android:layout_width="@dimen/avatar_image_size"
+        android:layout_height="@dimen/avatar_image_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/purple_200"/>
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/name_login_bio_margin_start"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_default_size"
+        app:layout_constraintBottom_toTopOf="@+id/loginTextView"
+        app:layout_constraintStart_toEndOf="@+id/avatarImageView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Test Name" />
+
+    <TextView
+        android:id="@+id/loginTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/name_login_bio_margin_start"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_small_size"
+        app:layout_constraintBottom_toTopOf="@+id/bioTextView"
+        app:layout_constraintStart_toEndOf="@+id/avatarImageView"
+        app:layout_constraintTop_toBottomOf="@+id/nameTextView"
+        tools:text="Test Login" />
+
+    <TextView
+        android:id="@+id/bioTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/name_login_bio_margin_start"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_small_size"
+        android:lines="1"
+        android:ellipsize="end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/repositoryCounterLinearLayout"
+        app:layout_constraintStart_toEndOf="@+id/avatarImageView"
+        app:layout_constraintTop_toBottomOf="@+id/loginTextView"
+        tools:text="Test Bio" />
+
+    <LinearLayout
+        android:id="@+id/repositoryCounterLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/repository_counter_Layout_margin_end"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repositories"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_extra_small_size" />
+
+        <TextView
+            android:id="@+id/repositoriesCounterTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/repository_counter_margin_top"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_large_size"
+            tools:text="5" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
