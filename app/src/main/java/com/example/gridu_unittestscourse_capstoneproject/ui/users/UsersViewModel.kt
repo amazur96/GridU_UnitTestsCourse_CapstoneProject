@@ -2,10 +2,9 @@ package com.example.gridu_unittestscourse_capstoneproject.ui.users
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.gridu_unittestscourse_capstoneproject.data.Result
 import com.example.gridu_unittestscourse_capstoneproject.data.model.UserDetails
-import com.example.gridu_unittestscourse_capstoneproject.data.source.UsersRepository
+import com.example.gridu_unittestscourse_capstoneproject.data.source.UsersRepositoryContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UsersViewModel @Inject constructor(
-    private val usersRepository: UsersRepository
+    private val usersRepository: UsersRepositoryContract
 ) : ViewModel() {
     val userList = MutableLiveData<List<UserDetails>?>()
     val loading = MutableLiveData<Boolean>()

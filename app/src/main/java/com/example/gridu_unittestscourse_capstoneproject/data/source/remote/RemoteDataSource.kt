@@ -6,9 +6,9 @@ import com.example.gridu_unittestscourse_capstoneproject.data.model.UserDetails
 
 class RemoteDataSource (
     private val networkService: NetworkService
-) {
+) : RemoteDataSourceContract{
 
-    suspend fun getUserDetails(): Result<List<UserDetails>> {
+    override suspend fun getUserDetails(): Result<List<UserDetails>> {
         val userResponse = networkService.getUsers()
         return if (userResponse.isSuccessful) {
             return if (userResponse.body().isNullOrEmpty()) {

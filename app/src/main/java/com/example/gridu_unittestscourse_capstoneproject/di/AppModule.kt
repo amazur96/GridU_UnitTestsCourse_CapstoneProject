@@ -2,11 +2,15 @@ package com.example.gridu_unittestscourse_capstoneproject.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.gridu_unittestscourse_capstoneproject.data.source.UsersRepository
+import com.example.gridu_unittestscourse_capstoneproject.data.source.UsersRepositoryContract
 import com.example.gridu_unittestscourse_capstoneproject.data.source.local.AppDatabase
 import com.example.gridu_unittestscourse_capstoneproject.data.source.local.LocalDataSource
+import com.example.gridu_unittestscourse_capstoneproject.data.source.local.LocalDataSourceContract
 import com.example.gridu_unittestscourse_capstoneproject.data.source.local.UsersDao
 import com.example.gridu_unittestscourse_capstoneproject.data.source.remote.NetworkService
 import com.example.gridu_unittestscourse_capstoneproject.data.source.remote.RemoteDataSource
+import com.example.gridu_unittestscourse_capstoneproject.data.source.remote.RemoteDataSourceContract
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -71,7 +75,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(mainService: NetworkService): RemoteDataSource =
+    fun provideRemoteDataSource(mainService: NetworkService): RemoteDataSourceContract =
         RemoteDataSource(mainService)
 
     @Provides
@@ -88,6 +92,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideLocalDataSource(usersDao: UsersDao): LocalDataSource =
+    fun provideLocalDataSource(usersDao: UsersDao): LocalDataSourceContract =
         LocalDataSource(usersDao)
+
+    @Provides
+    fun provideUsersRepository(
+        localDataSource: LocalDataSourceContract,
+        remoteDataSource: RemoteDataSourceContract
+    ): UsersRepositoryContract =
+        UsersRepository(remoteDataSource, localDataSource)
 }

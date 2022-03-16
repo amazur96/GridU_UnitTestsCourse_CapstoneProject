@@ -3,23 +3,21 @@ package com.example.gridu_unittestscourse_capstoneproject.data.source.local
 import com.example.gridu_unittestscourse_capstoneproject.data.Result
 import com.example.gridu_unittestscourse_capstoneproject.data.model.UserDetails
 
-class LocalDataSource(
-    private val usersDao: UsersDao
+class FakeLocalDataSource(
+    private var users: MutableList<UserDetails>?
 ) : LocalDataSourceContract{
-
     override suspend fun getUserDetails(): Result<List<UserDetails>> {
-        return try {
-            Result.Success(usersDao.getUsers())
-        } catch (e: Exception) {
-            Result.Error(e)
+        users?.let {
+            return Result.Success(it)
         }
+        return Result.Error(Exception("Local data source fail..."))
     }
 
     override suspend fun saveUser(userDetails: UserDetails) {
-        usersDao.insertUser(userDetails)
+        users?.add(userDetails)
     }
 
     override suspend fun deleteAllUsers() {
-        usersDao.deleteAllUsers()
+        users?.clear()
     }
 }

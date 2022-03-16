@@ -38,4 +38,13 @@ data class UserDetails(
     val type: String,
     val updated_at: String,
     val url: String
-)
+) {
+    constructor(id: Int) : this(
+        "", "", "", "", "",
+        "", "", 0, "", 0,
+        "", "", "", "", "",
+        id, "", "", "", "",
+        "", 0, 0,  "", "",
+        false, "", "", "", "",
+        "", "")
+}
