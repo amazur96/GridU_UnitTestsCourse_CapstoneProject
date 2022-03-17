@@ -25,7 +25,7 @@
 
         <argument
             android:name="userId"
-            app:argType="int" />
+            app:argType="integer" />
 
     </fragment>
 

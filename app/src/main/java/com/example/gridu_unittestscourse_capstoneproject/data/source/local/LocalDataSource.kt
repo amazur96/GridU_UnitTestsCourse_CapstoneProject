@@ -7,9 +7,17 @@ class LocalDataSource(
     private val usersDao: UsersDao
 ) : LocalDataSourceContract{
 
-    override suspend fun getUserDetails(): Result<List<UserDetails>> {
+    override suspend fun getUserDetailsList(): Result<List<UserDetails>> {
         return try {
             Result.Success(usersDao.getUsers())
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun getUserDetails(id: Int): Result<UserDetails> {
+        return try {
+            Result.Success(usersDao.getUserById(id))
         } catch (e: Exception) {
             Result.Error(e)
         }
