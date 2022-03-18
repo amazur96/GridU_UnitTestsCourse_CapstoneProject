@@ -43,7 +43,7 @@ class UsersFragment : Fragment() {
     private fun observeData() {
         with(viewModel) {
             loading.observe(viewLifecycleOwner) {
-                getMainActivity().setProgressBar(it)
+                getMainActivity()?.setProgressBar(it)
             }
             userList.observe(viewLifecycleOwner) {
                 adapter.setUserList(it!!)
@@ -80,5 +80,5 @@ class UsersFragment : Fragment() {
         )
     }
 
-    private fun getMainActivity(): MainActivity = activity as MainActivity
+    private fun getMainActivity(): MainActivity? = activity as? MainActivity
 }

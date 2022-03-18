@@ -36,7 +36,6 @@ class UsersDaoTest {
         "Updated long test bio", "Test Location", "Test email",
         12, 44, "false"
     )
-    private val emptyUserDetails = UserDetails(0)
 
     @Before
     fun initDb() {
