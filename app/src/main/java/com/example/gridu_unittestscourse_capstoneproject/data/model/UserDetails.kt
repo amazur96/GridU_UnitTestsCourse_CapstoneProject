@@ -39,6 +39,7 @@ data class UserDetails(
     val updated_at: String,
     val url: String
 ) {
+
     constructor(id: Int) : this(
         "", "", "", "", "",
         "", "", 0, "", 0,
@@ -46,5 +47,19 @@ data class UserDetails(
         id, "", "", "", "",
         "", 0, 0,  "", "",
         false, "", "", "", "",
-        "", "")
+        "", ""
+    )
+
+    constructor(
+        id: Int, name: String, login: String, bio: String, location: String,
+        email: String, public_repos: Int, followers: Int, hireable: String
+    ) : this(
+        "", bio, "", "", "",
+        email, "", followers, "", 0,
+        "", "", "", hireable, "",
+        id, location, login, name, "",
+        "", 0, public_repos,  "", "",
+        false, "", "", "", "",
+        "", ""
+    )
 }

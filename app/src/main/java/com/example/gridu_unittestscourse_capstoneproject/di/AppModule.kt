@@ -33,9 +33,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(BASE_URL: String, okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -44,7 +44,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        return OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS)
+        return OkHttpClient.Builder()
+            .connectTimeout(15, TimeUnit.SECONDS)
             .readTimeout(15, TimeUnit.SECONDS)
             .writeTimeout(15, TimeUnit.SECONDS)
             .addInterceptor { chain ->

@@ -9,7 +9,7 @@ interface UsersDao {
     fun getUsers(): List<UserDetails>
 
     @Query("SELECT * FROM UserDetails WHERE id = :id")
-    fun getUserById(id: Int): UserDetails
+    fun getUserById(id: Int): UserDetails?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUser(user: UserDetails)

@@ -13,6 +13,8 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
 
     private val userDetailsList = arrayListOf<UserDetails>()
 
+    var onItemClick: (Int) -> Unit = { id: Int -> }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
         return ViewHolder(itemView)
@@ -45,6 +47,9 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
                     Glide.with(itemView.context)
                         .load(avatar_url)
                         .into(avatarImageView)
+                }
+                root.setOnClickListener {
+                    onItemClick.invoke(userDetails.id)
                 }
             }
         }

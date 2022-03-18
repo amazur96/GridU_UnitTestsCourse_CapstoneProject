@@ -9,6 +9,24 @@
         android:id="@+id/usersFragment"
         android:name="com.example.gridu_unittestscourse_capstoneproject.ui.users.UsersFragment"
         android:label="UsersFragment"
-        tools:layout="@layout/fragment_users"/>
+        tools:layout="@layout/fragment_users">
+
+        <action
+            android:id="@+id/action_usersFragment_to_userDetailFragment"
+            app:destination="@id/userDetailsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/userDetailsFragment"
+        android:name="com.example.gridu_unittestscourse_capstoneproject.ui.user_details.UserDetailsFragment"
+        android:label="UserDetailsFragment"
+        tools:layout="@layout/fragment_user_details">
+
+        <argument
+            android:name="userId"
+            app:argType="integer" />
+
+    </fragment>
 
 </navigation>

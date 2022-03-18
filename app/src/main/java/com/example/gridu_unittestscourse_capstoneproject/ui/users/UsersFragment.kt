@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gridu_unittestscourse_capstoneproject.databinding.FragmentUsersBinding
 import com.example.gridu_unittestscourse_capstoneproject.ui.MainActivity
@@ -68,6 +69,15 @@ class UsersFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@UsersFragment.adapter
         }
+        adapter.onItemClick = {
+            openUserDetails(it)
+        }
+    }
+
+    private fun openUserDetails(userId: Int) {
+        findNavController().navigate(
+            UsersFragmentDirections.actionUsersFragmentToUserDetailFragment(userId)
+        )
     }
 
     private fun getMainActivity(): MainActivity = activity as MainActivity
