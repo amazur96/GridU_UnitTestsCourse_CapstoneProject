@@ -31,7 +31,7 @@ class UsersRepositoryTest {
     private val emptyUserList = mutableListOf<UserDetails>()
 
     @Test
-    fun getUsers_requestsAllTasksFromRemoteDataSource() = mainCoroutineRule.runBlockingTest{
+    fun getUsers_requestsAllTasksFromRemoteDataSource() = mainCoroutineRule.runBlockingTest {
         localDataSource = FakeLocalDataSource(localUserList)
         remoteDataSource = FakeRemoteDataSource(remoteUserList)
         repository = UsersRepository(remoteDataSource, localDataSource)
@@ -42,7 +42,7 @@ class UsersRepositoryTest {
     }
 
     @Test
-    fun getUsers_requestsAllTasksFromLocalDataSource() = mainCoroutineRule.runBlockingTest{
+    fun getUsers_requestsAllTasksFromLocalDataSource() = mainCoroutineRule.runBlockingTest {
         localDataSource = FakeLocalDataSource(localUserList)
         remoteDataSource = FakeRemoteDataSource(remoteUserList)
         repository = UsersRepository(remoteDataSource, localDataSource)
@@ -53,7 +53,7 @@ class UsersRepositoryTest {
     }
 
     @Test
-    fun getUsers_requestsEmptyTaskList() = mainCoroutineRule.runBlockingTest{
+    fun getUsers_requestsEmptyTaskList() = mainCoroutineRule.runBlockingTest {
         localDataSource = FakeLocalDataSource(emptyUserList)
         remoteDataSource = FakeRemoteDataSource(emptyUserList)
         repository = UsersRepository(remoteDataSource, localDataSource)
@@ -64,7 +64,7 @@ class UsersRepositoryTest {
     }
 
     @Test
-    fun getUsers_getError() = mainCoroutineRule.runBlockingTest{
+    fun getUsers_getError() = mainCoroutineRule.runBlockingTest {
         localDataSource = FakeLocalDataSource(null)
         remoteDataSource = FakeRemoteDataSource(null)
         repository = UsersRepository(remoteDataSource, localDataSource)
