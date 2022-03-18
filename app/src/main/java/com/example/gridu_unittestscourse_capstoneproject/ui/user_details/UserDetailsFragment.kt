@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -40,13 +41,20 @@ class UserDetailsFragment : Fragment() {
     private fun observeData() {
         with(viewModel) {
             loading.observe(viewLifecycleOwner) {
-                getMainActivity().setProgressBar(it)
+                getMainActivity()?.setProgressBar(it)
             }
             userDetails.observe(viewLifecycleOwner) {
-                it?.let { showUserDetails(it) }
+                it?.let {
+                    if (binding.errorMessageFrameLayout.isVisible)
+                        binding.errorMessageFrameLayout.visibility = View.VISIBLE
+                    showUserDetails(it)
+                }
             }
             error.observe(viewLifecycleOwner) {
-
+                binding.apply {
+                    errorMessageFrameLayout.visibility = View.VISIBLE
+                    errorMessageLayout.errorMessageTextView.text = it.message
+                }
             }
         }
     }
@@ -69,5 +77,5 @@ class UserDetailsFragment : Fragment() {
         }
     }
 
-    private fun getMainActivity(): MainActivity = activity as MainActivity
+    private fun getMainActivity(): MainActivity? = activity as? MainActivity
 }

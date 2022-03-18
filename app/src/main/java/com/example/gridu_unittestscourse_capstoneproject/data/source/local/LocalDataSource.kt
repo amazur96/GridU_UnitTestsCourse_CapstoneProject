@@ -5,7 +5,7 @@ import com.example.gridu_unittestscourse_capstoneproject.data.model.UserDetails
 
 class LocalDataSource(
     private val usersDao: UsersDao
-) : LocalDataSourceContract{
+) : LocalDataSourceContract {
 
     override suspend fun getUserDetailsList(): Result<List<UserDetails>> {
         return try {
@@ -17,7 +17,9 @@ class LocalDataSource(
 
     override suspend fun getUserDetails(id: Int): Result<UserDetails> {
         return try {
-            Result.Success(usersDao.getUserById(id))
+            val response = usersDao.getUserById(id)
+            return if (response != null) Result.Success(response) else
+                Result.Error(NullPointerException())
         } catch (e: Exception) {
             Result.Error(e)
         }

@@ -14,7 +14,10 @@ class FakeLocalDataSource(
     }
 
     override suspend fun getUserDetails(id: Int): Result<UserDetails> {
-        TODO("Not yet implemented")
+        users?.find { it.id == id }?.let {
+            return Result.Success(it)
+        }
+        return Result.Error(Exception("Local data source fail..."))
     }
 
     override suspend fun saveUser(userDetails: UserDetails) {

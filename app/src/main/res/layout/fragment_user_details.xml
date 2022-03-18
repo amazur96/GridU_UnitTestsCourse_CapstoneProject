@@ -166,14 +166,18 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/editButton"
+    <FrameLayout
+        android:id="@+id/errorMessageFrameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/info_linearlayout_margin_horizontal"
-        android:layout_marginBottom="@dimen/edit_button_margin_bottom"
-        android:text="@string/edit_main_data"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/message_frame_margin_top"
+        android:visibility="gone"
+        android:background="@color/white">
+
+        <include
+            android:id="@+id/errorMessageLayout"
+            layout="@layout/layout_error_message"/>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
