@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  Users screen  -->
+    <dimen name="progress_bar_size">54dp</dimen>
+    <dimen name="message_frame_margin_top">48dp</dimen>
+    <dimen name="avatar_image_size">60dp</dimen>
+    <dimen name="name_login_bio_margin_start">16dp</dimen>
+    <dimen name="repository_counter_Layout_margin_end">14dp</dimen>
+    <dimen name="repository_counter_margin_top">2dp</dimen>
+    <dimen name="item_user_margin_vertical">6dp</dimen>
+
+    <!--  User details screen  -->
+    <dimen name="avatar_large_image_size">90dp</dimen>
+    <dimen name="avatar_image_margin_top">14dp</dimen>
+    <dimen name="avatar_image_margin_start">18dp</dimen>
+    <dimen name="name_info_container_margin_start">14dp</dimen>
+    <dimen name="login_margin_top">4dp</dimen>
+    <dimen name="bio_margin_top">2dp</dimen>
+    <dimen name="info_linearlayout_margin_top">20dp</dimen>
+    <dimen name="info_linearlayout_margin_horizontal">18dp</dimen>
+    <dimen name="info_container_margin_top">12dp</dimen>
+    <dimen name="info_image_size">28dp</dimen>
+    <dimen name="info_text_margin_start">14dp</dimen>
+    <dimen name="edit_button_margin_bottom">20dp</dimen>
+
+    <!--  Text size  -->
+    <dimen name="text_large_size">18sp</dimen>
+    <dimen name="text_medium_size">16sp</dimen>
+    <dimen name="text_default_size">14sp</dimen>
+    <dimen name="text_small_size">12sp</dimen>
+    <dimen name="text_extra_small_size">11sp</dimen>
+</resources>
