@@ -74,4 +74,52 @@ class UsersRepositoryTest {
         assertThat(users is Result.Success).isEqualTo(false)
         assertThat(users is Result.Error).isEqualTo(true)
     }
+
+    @Test
+    fun getUserDetails_requestFromLocalDataSource() = mainCoroutineRule.runBlockingTest {
+        localDataSource = FakeLocalDataSource(localUserList)
+        remoteDataSource = FakeRemoteDataSource(emptyUserList)
+        repository = UsersRepository(remoteDataSource, localDataSource)
+
+        val requestedUserId = 1
+        val userDetails = repository.getUserDetails(requestedUserId) as Result.Success
+
+        assertThat(userDetails.data?.id).isEqualTo(requestedUserId)
+    }
+
+    @Test
+    fun getUserDetails_requestWithWrongUserId() = mainCoroutineRule.runBlockingTest {
+        localDataSource = FakeLocalDataSource(localUserList)
+        remoteDataSource = FakeRemoteDataSource(emptyUserList)
+        repository = UsersRepository(remoteDataSource, localDataSource)
+
+        val userDetails = repository.getUserDetails(44)
+
+        assertThat(userDetails is Result.Success).isEqualTo(false)
+        assertThat(userDetails is Result.Error).isEqualTo(true)
+    }
+
+    @Test
+    fun getUserDetails_requestFromEmptyUserList() = mainCoroutineRule.runBlockingTest {
+        localDataSource = FakeLocalDataSource(emptyUserList)
+        remoteDataSource = FakeRemoteDataSource(emptyUserList)
+        repository = UsersRepository(remoteDataSource, localDataSource)
+
+        val userDetails = repository.getUserDetails(1)
+
+        assertThat(userDetails is Result.Success).isEqualTo(false)
+        assertThat(userDetails is Result.Error).isEqualTo(true)
+    }
+
+    @Test
+    fun getUserDetails_getError() = mainCoroutineRule.runBlockingTest {
+        localDataSource = FakeLocalDataSource(null)
+        remoteDataSource = FakeRemoteDataSource(null)
+        repository = UsersRepository(remoteDataSource, localDataSource)
+
+        val userDetails = repository.getUserDetails(1)
+
+        assertThat(userDetails is Result.Success).isEqualTo(false)
+        assertThat(userDetails is Result.Error).isEqualTo(true)
+    }
 }

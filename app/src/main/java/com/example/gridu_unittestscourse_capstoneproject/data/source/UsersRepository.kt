@@ -11,17 +11,15 @@ class UsersRepository @Inject constructor(
     private val localDataSource: LocalDataSourceContract
 ) : UsersRepositoryContract {
     override suspend fun getUsers(isForceUpdate: Boolean): Result<List<UserDetails>> {
-        val usersDetailsResponse = localDataSource.getUserDetails()
-        if (isForceUpdate
-            || usersDetailsResponse !is Result.Success
-            || usersDetailsResponse.data.isNullOrEmpty()) {
+        val response = localDataSource.getUserDetailsList()
+        if (isForceUpdate || response !is Result.Success || response.data.isNullOrEmpty()) {
             try {
                 updateTasksFromRemoteDataSource()
             } catch (e: Exception) {
                 return Result.Error(e)
             }
         }
-        return localDataSource.getUserDetails()
+        return localDataSource.getUserDetailsList()
     }
 
     private suspend fun updateTasksFromRemoteDataSource() {
@@ -34,5 +32,9 @@ class UsersRepository @Inject constructor(
         } else if (response is Result.Error) {
             throw response.exception
         }
+    }
+
+    override suspend fun getUserDetails(userId: Int): Result<UserDetails> {
+        return localDataSource.getUserDetails(userId)
     }
 }

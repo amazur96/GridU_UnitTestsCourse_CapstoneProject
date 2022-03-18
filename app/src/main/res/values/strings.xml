@@ -2,4 +2,8 @@
     <string name="app_name">GridU_UnitTestsCourse_CapstoneProject</string>
 
     <string name="repositories">Repositories:</string>
+    <string name="edit_main_data">Edit main data</string>
+
+    <string name="empty_location">Location is empty</string>
+    <string name="empty_email">User don\'t set personal email</string>
 </resources>
