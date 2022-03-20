@@ -17,10 +17,6 @@ class UsersRepositoryTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-    private lateinit var localDataSource: FakeLocalDataSource
-    private lateinit var remoteDataSource: FakeRemoteDataSource
-    private lateinit var repository: UsersRepositoryContract
-
     private val localUserList = mutableListOf(
         UserDetails(0), UserDetails(1), UserDetails(2),
     )
@@ -31,95 +27,79 @@ class UsersRepositoryTest {
     private val emptyUserList = mutableListOf<UserDetails>()
 
     @Test
-    fun getUsers_requestsAllTasksFromRemoteDataSource() = mainCoroutineRule.runBlockingTest {
-        localDataSource = FakeLocalDataSource(localUserList)
-        remoteDataSource = FakeRemoteDataSource(remoteUserList)
-        repository = UsersRepository(remoteDataSource, localDataSource)
+    fun getUsers_returnSuccessUserDetailsListFromRemoteDataSource() = mainCoroutineRule.runBlockingTest {
+        val users = getUsersRepository().getUsers(true) as? Result.Success
 
-        val users = repository.getUsers(true) as Result.Success
-
-        assertThat(users.data).isEqualTo(remoteUserList)
+        assertThat(users).isNotNull()
+        users?.let { assertThat(it.data).isEqualTo(remoteUserList) }
     }
 
     @Test
-    fun getUsers_requestsAllTasksFromLocalDataSource() = mainCoroutineRule.runBlockingTest {
-        localDataSource = FakeLocalDataSource(localUserList)
-        remoteDataSource = FakeRemoteDataSource(remoteUserList)
-        repository = UsersRepository(remoteDataSource, localDataSource)
+    fun getUsers_returnSuccessUserDetailsListFromLocalDataSource() = mainCoroutineRule.runBlockingTest {
+        val users = getUsersRepository().getUsers(false) as? Result.Success
 
-        val users = repository.getUsers(false) as Result.Success
-
-        assertThat(users.data).isEqualTo(localUserList)
+        assertThat(users).isNotNull()
+        users?.let { assertThat(it.data).isEqualTo(localUserList) }
     }
 
     @Test
-    fun getUsers_requestsEmptyTaskList() = mainCoroutineRule.runBlockingTest {
-        localDataSource = FakeLocalDataSource(emptyUserList)
-        remoteDataSource = FakeRemoteDataSource(emptyUserList)
-        repository = UsersRepository(remoteDataSource, localDataSource)
+    fun getUsers_returnEmptyUserDetailsList() = mainCoroutineRule.runBlockingTest {
+        val users = getUsersRepositoryWithEmptyData().getUsers(false) as? Result.Success
 
-        val users = repository.getUsers(false) as Result.Success
-
-        assertThat(users.data).isEqualTo(emptyUserList)
+        assertThat(users).isNotNull()
+        assertThat(users?.data).isEqualTo(emptyUserList)
     }
 
     @Test
-    fun getUsers_getError() = mainCoroutineRule.runBlockingTest {
-        localDataSource = FakeLocalDataSource(null)
-        remoteDataSource = FakeRemoteDataSource(null)
-        repository = UsersRepository(remoteDataSource, localDataSource)
-
-        val users = repository.getUsers(false)
+    fun getUsers_returnError() = mainCoroutineRule.runBlockingTest {
+        val users = getUsersRepositoryWithNullData().getUsers(false)
 
         assertThat(users is Result.Success).isEqualTo(false)
         assertThat(users is Result.Error).isEqualTo(true)
     }
 
     @Test
-    fun getUserDetails_requestFromLocalDataSource() = mainCoroutineRule.runBlockingTest {
-        localDataSource = FakeLocalDataSource(localUserList)
-        remoteDataSource = FakeRemoteDataSource(emptyUserList)
-        repository = UsersRepository(remoteDataSource, localDataSource)
-
+    fun getUserDetails_returnSuccessDataFromLocalDataSource() = mainCoroutineRule.runBlockingTest {
         val requestedUserId = 1
-        val userDetails = repository.getUserDetails(requestedUserId) as Result.Success
+        val userDetails = getUsersRepository().getUserDetails(requestedUserId) as? Result.Success
 
-        assertThat(userDetails.data?.id).isEqualTo(requestedUserId)
+        assertThat(userDetails).isNotNull()
+        assertThat(userDetails?.data?.id).isEqualTo(requestedUserId)
     }
 
     @Test
-    fun getUserDetails_requestWithWrongUserId() = mainCoroutineRule.runBlockingTest {
-        localDataSource = FakeLocalDataSource(localUserList)
-        remoteDataSource = FakeRemoteDataSource(emptyUserList)
-        repository = UsersRepository(remoteDataSource, localDataSource)
-
-        val userDetails = repository.getUserDetails(44)
+    fun getUserDetails_requestWrongUserId_returnError() = mainCoroutineRule.runBlockingTest {
+        val userDetails = getUsersRepository().getUserDetails(44)
 
         assertThat(userDetails is Result.Success).isEqualTo(false)
         assertThat(userDetails is Result.Error).isEqualTo(true)
     }
 
     @Test
-    fun getUserDetails_requestFromEmptyUserList() = mainCoroutineRule.runBlockingTest {
-        localDataSource = FakeLocalDataSource(emptyUserList)
-        remoteDataSource = FakeRemoteDataSource(emptyUserList)
-        repository = UsersRepository(remoteDataSource, localDataSource)
-
-        val userDetails = repository.getUserDetails(1)
+    fun getUserDetails_returnEmptyUserDetailsList() = mainCoroutineRule.runBlockingTest {
+        val userDetails = getUsersRepositoryWithEmptyData().getUserDetails(1)
 
         assertThat(userDetails is Result.Success).isEqualTo(false)
         assertThat(userDetails is Result.Error).isEqualTo(true)
     }
 
     @Test
-    fun getUserDetails_getError() = mainCoroutineRule.runBlockingTest {
-        localDataSource = FakeLocalDataSource(null)
-        remoteDataSource = FakeRemoteDataSource(null)
-        repository = UsersRepository(remoteDataSource, localDataSource)
-
-        val userDetails = repository.getUserDetails(1)
+    fun getUserDetails_returnError() = mainCoroutineRule.runBlockingTest {
+        val userDetails = getUsersRepositoryWithNullData().getUserDetails(1)
 
         assertThat(userDetails is Result.Success).isEqualTo(false)
         assertThat(userDetails is Result.Error).isEqualTo(true)
     }
+
+    private fun getUsersRepository() = UsersRepository(
+        FakeRemoteDataSource(remoteUserList), FakeLocalDataSource(localUserList)
+    )
+
+    private fun getUsersRepositoryWithEmptyData() = UsersRepository(
+        FakeRemoteDataSource(emptyUserList), FakeLocalDataSource(emptyUserList)
+    )
+
+    private fun getUsersRepositoryWithNullData() = UsersRepository(
+        FakeRemoteDataSource(null), FakeLocalDataSource(null)
+    )
 }

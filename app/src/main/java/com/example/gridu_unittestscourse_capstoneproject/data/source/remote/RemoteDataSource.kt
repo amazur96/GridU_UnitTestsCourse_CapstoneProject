@@ -23,16 +23,12 @@ class RemoteDataSource (
 
     private suspend fun loadUserDetails(users: List<User>): Result<List<UserDetails>> {
         val usersDetails = mutableListOf<UserDetails>()
-        val response = networkService.getUserDetails(users[0].login)
-        if (response.isSuccessful && response.body() != null) {
-            usersDetails.add(response.body()!!)
+        users.forEach { userDetails ->
+            val response = networkService.getUserDetails(userDetails.login)
+            if (response.isSuccessful) {
+                response.body()?.let { usersDetails.add(it) }
+            }
         }
-//        for (it in userList) {
-//            val response = remoteDataSource.getUserDetails(it.login)
-//            if (response.isSuccessful && response.body() != null) {
-//                usersDetails.add(response.body()!!)
-//            }
-//        }
         return Result.Success(usersDetails)
     }
 }

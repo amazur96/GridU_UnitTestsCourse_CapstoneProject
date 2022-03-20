@@ -16,7 +16,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -48,22 +47,11 @@ object AppModule {
             .connectTimeout(15, TimeUnit.SECONDS)
             .readTimeout(15, TimeUnit.SECONDS)
             .writeTimeout(15, TimeUnit.SECONDS)
-            .addInterceptor { chain ->
-                chain.proceed(
-                    chain.request().newBuilder().apply {
-                        addHeader(
-                            "Authorization",
-                            Credentials.basic("amazur96", "121232421Ycbu3")
-                        )
-                    }.build()
-                )
-            }
             .addInterceptor(httpLoggingInterceptor)
             .build()
     }
 
     @Provides
-    @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY

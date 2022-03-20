@@ -45,7 +45,7 @@ class UserDetailsFragmentTest {
     }
 
     @Test
-    fun userDetailsScreen_displayedFullDataInUi() {
+    fun userDetailsScreen_displayDataInUi() {
         val bundle = UserDetailsFragmentArgs(userDetails.id).toBundle()
         runBlocking {
             repository.saveUser(userDetails)
@@ -72,7 +72,7 @@ class UserDetailsFragmentTest {
     }
 
     @Test
-    fun userDetailsScreen_displayedEmptyDataInUi() {
+    fun userDetailsScreen_displayEmptyDataInUi() {
         val bundle = UserDetailsFragmentArgs(emptyUserDetails.id).toBundle()
         runBlocking {
             repository.saveUser(emptyUserDetails)
@@ -98,7 +98,7 @@ class UserDetailsFragmentTest {
     }
 
     @Test
-    fun userDetailsScreen_displayedErrorInUi() {
+    fun userDetailsScreen_displayErrorInUi() {
         val bundle = UserDetailsFragmentArgs(userDetails.id).toBundle()
         launchFragmentInHiltContainer<UserDetailsFragment>(bundle)
 

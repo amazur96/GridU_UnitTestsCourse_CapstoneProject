@@ -41,7 +41,7 @@ class UsersFragmentTest {
     }
 
     @Test
-    fun usersScreen_displayedFullDataInUi() {
+    fun usersScreen_displayDataInUi() {
         runBlocking {
             users.forEach { repository.saveUser(it) }
         }
@@ -53,9 +53,10 @@ class UsersFragmentTest {
     }
 
     @Test
-    fun usersScreen_displayedEmptyDataInUi() {
+    fun usersScreen_displayEmptyDataInUi() {
         launchFragmentInHiltContainer<UsersFragment>()
 
         onView(withId(R.id.emptyMessageFrameLayout)).check(matches(isDisplayed()))
+        onView(withId(R.id.errorMessageFrameLayout)).check(matches(not(isDisplayed())))
     }
 }

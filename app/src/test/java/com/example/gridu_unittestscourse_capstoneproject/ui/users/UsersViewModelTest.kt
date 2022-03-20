@@ -35,14 +35,11 @@ class UsersViewModelTest {
     }
 
     @Test
-    fun getUsers_requestSuccessData() {
-        every {
-            runBlocking { repository.getUsers(false) }
-        } returns Result.Success(users)
+    fun getUsers_returnSuccessData() {
+        every { runBlocking { repository.getUsers(false) } } returns Result.Success(users)
 
-        viewModel = UsersViewModel(repository).apply {
-            getUsers()
-        }
+        viewModel = UsersViewModel(repository)
+        viewModel.getUsers()
 
         assertThat(viewModel.loading.getOrAwaitValue()).isEqualTo(true)
         assertThat(viewModel.userList.getOrAwaitValue()).isEqualTo(users)
@@ -50,27 +47,21 @@ class UsersViewModelTest {
     }
 
     @Test
-    fun getUsers_requestEmptyData() {
-        every {
-            runBlocking { repository.getUsers(false) }
-        } returns Result.Success(listOf())
+    fun getUsers_returnEmptyData() {
+        every { runBlocking { repository.getUsers(false) } } returns Result.Success(listOf())
 
-        viewModel = UsersViewModel(repository).apply {
-            getUsers()
-        }
+        viewModel = UsersViewModel(repository)
+        viewModel.getUsers()
 
-        assertThat(viewModel.emptyResponse.getOrAwaitValue()).isEqualTo(true)
+        assertThat(viewModel.userList.getOrAwaitValue()).isEmpty()
     }
 
     @Test
-    fun getUsers_requestErrorData() {
-        every {
-            runBlocking { repository.getUsers(false) }
-        } returns Result.Error(error)
+    fun getUsers_returnError() {
+        every { runBlocking { repository.getUsers(false) } } returns Result.Error(error)
 
-        viewModel = UsersViewModel(repository).apply {
-            getUsers()
-        }
+        viewModel = UsersViewModel(repository)
+        viewModel.getUsers()
 
         assertThat(viewModel.error.getOrAwaitValue()).isEqualTo(error)
     }

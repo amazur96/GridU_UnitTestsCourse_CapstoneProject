@@ -17,9 +17,10 @@ class LocalDataSource(
 
     override suspend fun getUserDetails(id: Int): Result<UserDetails> {
         return try {
-            val response = usersDao.getUserById(id)
-            return if (response != null) Result.Success(response) else
-                Result.Error(NullPointerException())
+            usersDao.getUserById(id)?.let {
+                return Result.Success(it)
+            }
+            return Result.Error(NullPointerException())
         } catch (e: Exception) {
             Result.Error(e)
         }

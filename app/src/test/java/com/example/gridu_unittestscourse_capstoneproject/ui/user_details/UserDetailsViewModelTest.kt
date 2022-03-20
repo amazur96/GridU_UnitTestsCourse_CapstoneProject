@@ -37,14 +37,11 @@ class UserDetailsViewModelTest {
     }
 
     @Test
-    fun getUserDetails_requestSuccessData() {
-        every {
-            runBlocking { repository.getUserDetails(userDetails.id) }
-        } returns Result.Success(userDetails)
+    fun getUserDetails_returnSuccessData() {
+        every { runBlocking { repository.getUserDetails(userDetails.id) } } returns Result.Success(userDetails)
 
-        viewModel = UserDetailsViewModel(repository).apply {
-            getUserDetails(this@UserDetailsViewModelTest.userDetails.id)
-        }
+        viewModel = UserDetailsViewModel(repository)
+        viewModel.getUserDetails(userDetails.id)
 
         assertThat(viewModel.loading.getOrAwaitValue()).isEqualTo(true)
         assertThat(viewModel.userDetails.getOrAwaitValue()).isEqualTo(userDetails)
@@ -52,27 +49,21 @@ class UserDetailsViewModelTest {
     }
 
     @Test
-    fun getUserDetails_requestEmptyData() {
-        every {
-            runBlocking { repository.getUserDetails(emptyUserDetails.id) }
-        } returns Result.Success(emptyUserDetails)
+    fun getUserDetails_returnEmptyData() {
+        every { runBlocking { repository.getUserDetails(emptyUserDetails.id) } } returns Result.Success(emptyUserDetails)
 
-        viewModel = UserDetailsViewModel(repository).apply {
-            getUserDetails(emptyUserDetails.id)
-        }
+        viewModel = UserDetailsViewModel(repository)
+        viewModel.getUserDetails(emptyUserDetails.id)
 
         assertThat(viewModel.userDetails.getOrAwaitValue()).isEqualTo(emptyUserDetails)
     }
 
     @Test
-    fun getUserDetails_getError() {
-        every {
-            runBlocking { repository.getUserDetails(44) }
-        } returns Result.Error(error)
+    fun getUserDetails_returnError() {
+        every { runBlocking { repository.getUserDetails(44) } } returns Result.Error(error)
 
-        viewModel = UserDetailsViewModel(repository).apply {
-            getUserDetails(44)
-        }
+        viewModel = UserDetailsViewModel(repository)
+        viewModel.getUserDetails(44)
 
         assertThat(viewModel.error.getOrAwaitValue()).isEqualTo(error)
     }

@@ -46,7 +46,7 @@ class UsersDaoTest {
     }
 
     @Test
-    fun insertUserIntoDbAndGetById() = runBlocking {
+    fun getUserById_returnInsertedUserFromDb() = runBlocking {
         database.usersDao().insertUser(userDetails)
 
         val loaded = database.usersDao().getUserById(userDetails.id)
@@ -60,7 +60,7 @@ class UsersDaoTest {
     }
 
     @Test
-    fun insertUserIntoDbUpdateAndGetById() = runBlocking {
+    fun getUserById_returnInsertedAndUpdatedUserFromDb() = runBlocking {
         database.usersDao().insertUser(userDetails)
 
         database.usersDao().updateUser(updatedUserDetails)
@@ -75,7 +75,7 @@ class UsersDaoTest {
     }
 
     @Test
-    fun insertUserIntoDbDeleteAndGetById() = runBlocking {
+    fun getUserById_returnNullAfterDeleteUserFromDb() = runBlocking {
         database.usersDao().insertUser(userDetails)
 
         database.usersDao().deleteUser(userDetails)
@@ -85,7 +85,7 @@ class UsersDaoTest {
     }
 
     @Test
-    fun insertUserListIntoDbAndGetUsers() = runBlocking {
+    fun getUsers_returnInsertedUserListFromDb() = runBlocking {
         users.forEach {
             database.usersDao().insertUser(it)
         }
