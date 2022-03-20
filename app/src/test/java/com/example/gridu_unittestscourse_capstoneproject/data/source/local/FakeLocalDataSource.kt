@@ -6,6 +6,7 @@ import com.example.gridu_unittestscourse_capstoneproject.data.model.UserDetails
 class FakeLocalDataSource(
     private var users: MutableList<UserDetails>?
 ) : LocalDataSourceContract{
+
     override suspend fun getUserDetailsList(): Result<List<UserDetails>> {
         users?.let {
             return Result.Success(it)

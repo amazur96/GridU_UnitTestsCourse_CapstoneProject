@@ -1,9 +1,6 @@
 package com.example.gridu_unittestscourse_capstoneproject.ui.users
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,13 +43,14 @@ class UsersFragment : Fragment() {
                 getMainActivity()?.setProgressBar(it)
             }
             userList.observe(viewLifecycleOwner) {
-                adapter.setUserList(it!!)
-            }
-            emptyResponse.observe(viewLifecycleOwner) {
+                if (!it.isNullOrEmpty()) {
+                    adapter.setUserList(it)
+                    return@observe
+                }
                 with(binding) {
                     usersRecyclerView.visibility = View.GONE
                     errorMessageFrameLayout.visibility = View.GONE
-                    emptyMessageFrameLayout.visibility = if (it) View.VISIBLE else View.GONE
+                    emptyMessageFrameLayout.visibility = View.VISIBLE
                 }
             }
             error.observe(viewLifecycleOwner) {

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -45,8 +44,7 @@ class UserDetailsFragment : Fragment() {
             }
             userDetails.observe(viewLifecycleOwner) {
                 it?.let {
-                    if (binding.errorMessageFrameLayout.isVisible)
-                        binding.errorMessageFrameLayout.visibility = View.VISIBLE
+                    binding.errorMessageFrameLayout.visibility = View.GONE
                     showUserDetails(it)
                 }
             }
@@ -65,7 +63,7 @@ class UserDetailsFragment : Fragment() {
                 nameTextView.text = name
                 loginTextView.text = login
                 bioTextView.text = bio
-                locationTextView.text = location.ifEmpty { getString(R.string.empty_location) }
+                locationTextView.text = if (location.isNullOrEmpty()) getString(R.string.empty_location) else location
                 emailTextView.text = if (email.isNullOrEmpty()) getString(R.string.empty_email) else email
                 repositoriesCounterTextView.text = public_repos.toString()
                 followersCounterTextView.text = followers.toString()

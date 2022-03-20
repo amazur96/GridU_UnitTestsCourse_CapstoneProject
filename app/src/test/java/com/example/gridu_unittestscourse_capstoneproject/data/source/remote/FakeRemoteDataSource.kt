@@ -6,6 +6,7 @@ import com.example.gridu_unittestscourse_capstoneproject.data.model.UserDetails
 class FakeRemoteDataSource(
     private val users: List<UserDetails>?
 ) : RemoteDataSourceContract{
+
     override suspend fun getUserDetails(): Result<List<UserDetails>> {
         users?.let {
             return Result.Success(it)

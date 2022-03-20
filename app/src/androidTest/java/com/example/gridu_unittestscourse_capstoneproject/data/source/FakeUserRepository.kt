@@ -8,6 +8,7 @@ import javax.inject.Inject
 class FakeUserRepository @Inject constructor(
     private val localDataSource: LocalDataSourceContract
 ) : UsersRepositoryContract {
+
     override suspend fun getUsers(isForceUpdate: Boolean): Result<List<UserDetails>> {
         return localDataSource.getUserDetailsList()
     }

@@ -10,6 +10,7 @@ class UsersRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSourceContract,
     private val localDataSource: LocalDataSourceContract
 ) : UsersRepositoryContract {
+
     override suspend fun getUsers(isForceUpdate: Boolean): Result<List<UserDetails>> {
         val response = localDataSource.getUserDetailsList()
         if (isForceUpdate || response !is Result.Success || response.data.isNullOrEmpty()) {
